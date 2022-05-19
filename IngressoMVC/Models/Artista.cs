@@ -7,8 +7,6 @@ namespace IngressoMVC.Models
     {
         protected Artista(string nome, string bio, string fotoPerfilURL)        {
            
-            DataCadastro = DateTime.Now;
-            DataAlteração = DataCadastro;
             Nome = nome;
             Bio = bio;
             FotoPerfilURL = fotoPerfilURL;
