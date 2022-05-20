@@ -1,4 +1,6 @@
-﻿namespace IngressoMVC.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace IngressoMVC.Models
 {
     public class FilmeCategoria
     {
@@ -7,12 +9,13 @@
             FilmeId = filmeId;
             CategoriaId = categoriaId;
         }
-
-        public Filme Filme { get; set; }
+        [Key]
         public int FilmeId { get; private set; }
-
-        public Categoria Categoria { get; set; }
+        public Filme Filme { get; set; }
+        
+        [Key]
         public int CategoriaId { get; private set; }
+        public Categoria Categoria { get; set; }
 
     }
 }

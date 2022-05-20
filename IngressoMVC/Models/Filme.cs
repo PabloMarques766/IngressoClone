@@ -29,6 +29,11 @@ namespace IngressoMVC.Models
         //relacionamentos
         public void AlterarPreco(decimal novoPreco)
         {
+            if (novoPreco < 0)
+            {
+                return;
+            }
+
             Preco = novoPreco;
         }
     }
