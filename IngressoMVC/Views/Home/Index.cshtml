@@ -1,8 +1,58 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<Ator>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1>Atores
+
+        -
+
+            <a class="btn btn-dark" href="#">Cadastrar</a>
+        </h1>
+        <div class="col-12">
+            <input class="form-control" type="text" name="Nome" id="Nome" placeholder="Buscar" />
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Ações</th>
+                    <th>Foto de Perfil</th>
+                    <th>Nome</th>
+                    <th>Biografia</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ator in Model)
+                {
+
+                    <tr>
+                        <td width="50">
+                            <div class="d-flex flex-column">
+                                <a class="btn btn-info mt-1" href="#">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+
+                                    Editar
+                                </a>
+                                <a class="btn btn-danger mt-1" href="#">
+                                    <i><i class="fa-solid fa-circle-trash"></i></i>
+                                    Excluir
+                                </a>
+
+                                <a class="btn btn-primary mt1" href="#">
+                                    <i class="fa-solid fa-eyes"></i>
+                                    Ver
+                                </a>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <img src="@ator.FotoPerfilURL" style="max-width:100px" alt="@ator.Nome">
+                        </td>
+                        <td class="align-middle">@ator.Nome</td>
+                        <td class="align-middle">@ator.Bio</td>
+                    </tr>
+                 }
+            </tbody>
+        </table>
+
+    </div>
 </div>

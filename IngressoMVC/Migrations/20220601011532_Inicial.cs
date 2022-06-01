@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IngressoMVC.Migrations
 {
-    public partial class inicial : Migration
+    public partial class Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,7 @@ namespace IngressoMVC.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataAlteração = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FotoPerfilURL = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -31,7 +31,7 @@ namespace IngressoMVC.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataAlteração = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -40,14 +40,30 @@ namespace IngressoMVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cinemas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LogoURL = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cinemas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Produtores",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProdutorId = table.Column<int>(type: "int", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataAlteração = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FotoPerfilURL = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -58,44 +74,19 @@ namespace IngressoMVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cinemas",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataAlteração = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LogoURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CinemaId = table.Column<int>(type: "int", nullable: false),
-                    ProdutorId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cinemas", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cinemas_Produtores_ProdutorId",
-                        column: x => x.ProdutorId,
-                        principalTable: "Produtores",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Filmes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataAlteração = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Titulo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Preco = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CinemaId = table.Column<int>(type: "int", nullable: true),
-                    ProdutorId = table.Column<int>(type: "int", nullable: true)
+                    CinemaId = table.Column<int>(type: "int", nullable: false),
+                    ProdutorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -105,13 +96,13 @@ namespace IngressoMVC.Migrations
                         column: x => x.CinemaId,
                         principalTable: "Cinemas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Filmes_Produtores_ProdutorId",
                         column: x => x.ProdutorId,
                         principalTable: "Produtores",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -119,8 +110,7 @@ namespace IngressoMVC.Migrations
                 columns: table => new
                 {
                     AtorId = table.Column<int>(type: "int", nullable: false),
-                    FilmeId = table.Column<int>(type: "int", nullable: false),
-                    CinemaId = table.Column<int>(type: "int", nullable: true)
+                    FilmeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -131,12 +121,6 @@ namespace IngressoMVC.Migrations
                         principalTable: "Atores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AtoresFilmes_Cinemas_CinemaId",
-                        column: x => x.CinemaId,
-                        principalTable: "Cinemas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AtoresFilmes_Filmes_FilmeId",
                         column: x => x.FilmeId,
@@ -154,7 +138,7 @@ namespace IngressoMVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FilmesCategorias", x => new { x.CategoriaId, x.FilmeId });
+                    table.PrimaryKey("PK_FilmesCategorias", x => new { x.FilmeId, x.CategoriaId });
                     table.ForeignKey(
                         name: "FK_FilmesCategorias_Categorias_CategoriaId",
                         column: x => x.CategoriaId,
@@ -170,19 +154,9 @@ namespace IngressoMVC.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AtoresFilmes_CinemaId",
-                table: "AtoresFilmes",
-                column: "CinemaId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AtoresFilmes_FilmeId",
                 table: "AtoresFilmes",
                 column: "FilmeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cinemas_ProdutorId",
-                table: "Cinemas",
-                column: "ProdutorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Filmes_CinemaId",
@@ -195,9 +169,9 @@ namespace IngressoMVC.Migrations
                 column: "ProdutorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FilmesCategorias_FilmeId",
+                name: "IX_FilmesCategorias_CategoriaId",
                 table: "FilmesCategorias",
-                column: "FilmeId");
+                column: "CategoriaId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -4,23 +4,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IngressoMVC.Controllers
 {
-    public class CategoriasController : Controller
+    public class CinemasController : Controller
     {
         private IngressoDbContext _context;
 
-        public CategoriasController(IngressoDbContext context)
+        public CinemasController(IngressoDbContext context)
         {
             _context = context;
         }
 
         public IActionResult Index()
         {
-            return View(_context.Atores);
+            return View(_context.Filmes);
         }
 
         public IActionResult Detalhes(int id)
         {
-            return View(_context.Categorias.Find(id));
+            return View(_context.Cinemas.Find(id));
         }
 
         public IActionResult Criar()
@@ -30,15 +30,15 @@ namespace IngressoMVC.Controllers
 
         public IActionResult Atuaizar(int id)
         {
-            //buscar um categoria no banco 
-            //passar o categoria na view
+            //buscar um cinemas no banco 
+            //passar o cinemas na view
                 return View();
         }
 
         public IActionResult Deletar(int id)
         {
-            //buscar um categoria no banco 
-            //passar o categoria na view
+            //buscar um cinemas no banco 
+            //passar o cinemas na view
                 return View();
         }
 

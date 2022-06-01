@@ -3,28 +3,29 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq;
+
 namespace IngressoMVC.Data
 {
     public class InicializadorDeDados
     {
         public static void Inicializar(IApplicationBuilder builder)
         {
-            
-
             using (var serviceScope = builder.ApplicationServices.CreateScope())
             {
                 var context = serviceScope
                     .ServiceProvider
-                    .GetService<IngressoDbContex>();
+                    .GetService<IngressoDbContext>();
+
                 context.Database.EnsureCreated();
-                if (!context.Cinemas.Any())
+
+                if(!context.Cinemas.Any())
                 {
                     context.Cinemas.Add(new Cinema
                         ("Cinemark", "Texto desc..", "https://cdn.freebiesupply.com/logos/large/2x/cinemark-1-logo-png-transparent.png"));
                     context.SaveChanges();
                 }
 
-                if (!context.Atores.Any())
+                if(!context.Atores.Any())
                 {
                     context.Atores.AddRange(new List<Ator>()
                     {
@@ -46,7 +47,7 @@ namespace IngressoMVC.Data
                     context.SaveChanges();
                 }
 
-                if (!context.Categorias.Any())
+                if(!context.Categorias.Any())
                 {
                     context.Categorias.AddRange(new List<Categoria>()
                     {
@@ -59,21 +60,19 @@ namespace IngressoMVC.Data
                     context.SaveChanges();
                 }
 
-                if (!context.Filmes.Any())
+                if(!context.Filmes.Any())
                 {
                     context.Filmes.AddRange(new List<Filme>()
                     {
                         new Filme("Liga da Justiça", "Impulsionado pela restauração de sua fé na humanidade e inspirado pelo ato altruísta do Superman, Bruce Wayne convoca sua nova aliada Diana Prince para o combate contra um inimigo ainda maior, recém-despertado. ", 20, "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/geyu6rplpbp7OUeOfB2uRVf1LpG.jpg", 1, 1),
-                        new Filme("Sherlock Holmes: O Jogo de Sombras", "Filme desc...", 20, "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/of8oht9uENwEdx35HehEPUhGC2w.jpg", 2, 1),
-
-                    new Filme("Sherlock Holmes: O Jogo de Sombras", "Filme desc...", 20, "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/of8oht9uENwEdx35HehEPUhGC2w.jpg", 1, 2)
+                        new Filme("Sherlock Holmes: O Jogo de Sombras", "Filme desc...", 20, "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/of8oht9uENwEdx35HehEPUhGC2w.jpg", 1, 2)
                     });
-                context.SaveChanges();
-            }   
+                    context.SaveChanges();
+                }
 
-                if (!context.FilmesCategorias.Any())
-            {
-                context.FilmesCategorias.AddRange(new List<FilmeCategoria>()
+                if(!context.FilmesCategorias.Any())
+                {
+                    context.FilmesCategorias.AddRange(new List<FilmeCategoria>()
                     {
                         new FilmeCategoria(1, 1),
                         new FilmeCategoria(1, 2),
@@ -82,20 +81,20 @@ namespace IngressoMVC.Data
                         new FilmeCategoria(2, 4),
                         new FilmeCategoria(2, 5)
                     });
-                context.SaveChanges();
-            }
+                    context.SaveChanges();
+                }
 
-            if (!context.AtoresFilmes.Any())
-            {
-                context.AtoresFilmes.AddRange(new List<AtorFilme>()
+                if(!context.AtoresFilmes.Any())
+                {
+                    context.AtoresFilmes.AddRange(new List<AtorFilme>()
                     {
                         new AtorFilme(1, 2),
                         new AtorFilme(2, 1),
                         new AtorFilme(3, 1)
                     });
-                context.SaveChanges();
+                    context.SaveChanges();
+                }
             }
         }
     }
-}
 }

@@ -4,14 +4,16 @@ using IngressoMVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IngressoMVC.Migrations
 {
-    [DbContext(typeof(IngressoDbContex))]
-    partial class IngressoDbContexModelSnapshot : ModelSnapshot
+    [DbContext(typeof(IngressoDbContext))]
+    [Migration("20220601011532_Inicial")]
+    partial class Inicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +31,7 @@ namespace IngressoMVC.Migrations
                     b.Property<string>("Bio")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DataAlteração")
+                    b.Property<DateTime>("DataAlteracao")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataCadastro")
@@ -54,12 +56,7 @@ namespace IngressoMVC.Migrations
                     b.Property<int>("FilmeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CinemaId")
-                        .HasColumnType("int");
-
                     b.HasKey("AtorId", "FilmeId");
-
-                    b.HasIndex("CinemaId");
 
                     b.HasIndex("FilmeId");
 
@@ -73,7 +70,7 @@ namespace IngressoMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DataAlteração")
+                    b.Property<DateTime>("DataAlteracao")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataCadastro")
@@ -94,10 +91,7 @@ namespace IngressoMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CinemaId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DataAlteração")
+                    b.Property<DateTime>("DataAlteracao")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataCadastro")
@@ -112,12 +106,7 @@ namespace IngressoMVC.Migrations
                     b.Property<string>("Nome")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProdutorId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProdutorId");
 
                     b.ToTable("Cinemas");
                 });
@@ -129,10 +118,10 @@ namespace IngressoMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CinemaId")
+                    b.Property<int>("CinemaId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DataAlteração")
+                    b.Property<DateTime>("DataAlteracao")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataCadastro")
@@ -147,7 +136,7 @@ namespace IngressoMVC.Migrations
                     b.Property<decimal>("Preco")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("ProdutorId")
+                    b.Property<int>("ProdutorId")
                         .HasColumnType("int");
 
                     b.Property<string>("Titulo")
@@ -164,15 +153,15 @@ namespace IngressoMVC.Migrations
 
             modelBuilder.Entity("IngressoMVC.Models.FilmeCategoria", b =>
                 {
-                    b.Property<int>("CategoriaId")
-                        .HasColumnType("int");
-
                     b.Property<int>("FilmeId")
                         .HasColumnType("int");
 
-                    b.HasKey("CategoriaId", "FilmeId");
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("FilmeId");
+                    b.HasKey("FilmeId", "CategoriaId");
+
+                    b.HasIndex("CategoriaId");
 
                     b.ToTable("FilmesCategorias");
                 });
@@ -187,7 +176,7 @@ namespace IngressoMVC.Migrations
                     b.Property<string>("Bio")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DataAlteração")
+                    b.Property<DateTime>("DataAlteracao")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataCadastro")
@@ -198,9 +187,6 @@ namespace IngressoMVC.Migrations
 
                     b.Property<string>("Nome")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProdutorId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -215,12 +201,8 @@ namespace IngressoMVC.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("IngressoMVC.Models.Cinema", null)
-                        .WithMany("AtoresFilmes")
-                        .HasForeignKey("CinemaId");
-
                     b.HasOne("IngressoMVC.Models.Filme", "Filme")
-                        .WithMany()
+                        .WithMany("AtoresFilmes")
                         .HasForeignKey("FilmeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -230,28 +212,23 @@ namespace IngressoMVC.Migrations
                     b.Navigation("Filme");
                 });
 
-            modelBuilder.Entity("IngressoMVC.Models.Cinema", b =>
-                {
-                    b.HasOne("IngressoMVC.Models.Produtor", "Produtor")
-                        .WithMany()
-                        .HasForeignKey("ProdutorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Produtor");
-                });
-
             modelBuilder.Entity("IngressoMVC.Models.Filme", b =>
                 {
                     b.HasOne("IngressoMVC.Models.Cinema", "Cinema")
                         .WithMany("Filmes")
-                        .HasForeignKey("CinemaId");
+                        .HasForeignKey("CinemaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("IngressoMVC.Models.Produtor", null)
+                    b.HasOne("IngressoMVC.Models.Produtor", "Produtor")
                         .WithMany("Filmes")
-                        .HasForeignKey("ProdutorId");
+                        .HasForeignKey("ProdutorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Cinema");
+
+                    b.Navigation("Produtor");
                 });
 
             modelBuilder.Entity("IngressoMVC.Models.FilmeCategoria", b =>
@@ -285,13 +262,13 @@ namespace IngressoMVC.Migrations
 
             modelBuilder.Entity("IngressoMVC.Models.Cinema", b =>
                 {
-                    b.Navigation("AtoresFilmes");
-
                     b.Navigation("Filmes");
                 });
 
             modelBuilder.Entity("IngressoMVC.Models.Filme", b =>
                 {
+                    b.Navigation("AtoresFilmes");
+
                     b.Navigation("FilmesCategorias");
                 });
 

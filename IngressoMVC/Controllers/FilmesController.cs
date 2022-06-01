@@ -1,37 +1,46 @@
-﻿using IngressoMVC.Data;
-using IngressoMVC.Models;
+using IngressoMVC.Data;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace IngressoMVC.Controllers
 {
     public class FilmesController : Controller
     {
-        private IngressoDbContex _context;
+        private IngressoDbContext _context;
 
-        public IActionResult Index()
-        {
-            return Ok(_context.Filmes);
-        }
-
-        public FilmesController(IngressoDbContex context)
+        public FilmesController(IngressoDbContext context)
         {
             _context = context;
         }
 
-
-        [HttpGet] 
-        public ActionResult<Filme> ListarFilmes()
+        public IActionResult Index()
         {
-            var resultado = _context.Filmes.Find();
-
-            if (resultado == null)
-                return NotFound();
-
-            return Ok(resultado);
+            return View(_context.Filmes);
         }
+
+        public IActionResult Detalhes(int id)
+        {
+            return View(_context.Filmes.Find(id));
+        }
+
+        public IActionResult Criar()
+        {
+            return View();
+        }
+
+        public IActionResult Atuaizar(int id)
+        {
+            //buscar um filme no banco 
+            //passar o filme na view
+                return View();
+        }
+
+        public IActionResult Deletar(int id)
+        {
+            //buscar um filme no banco 
+            //passar o filme na view
+                return View();
+        }
+
     }
 }

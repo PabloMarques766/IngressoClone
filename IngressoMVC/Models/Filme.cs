@@ -6,7 +6,7 @@ namespace IngressoMVC.Models
 {
     public class Filme : IEntidade
     {
-        public Filme( string titulo, string descricao, decimal preco, string imageURL)
+        public Filme(string titulo, string descricao, decimal preco, string imageURL)
         {
             Titulo = titulo;
             Descricao = descricao;
@@ -14,7 +14,7 @@ namespace IngressoMVC.Models
             ImageURL = imageURL;
         }
 
-        public Filme(string titulo, string descricao, decimal preco, string imageURL, int cinemaId, int produtorId )
+        public Filme(string titulo, string descricao, decimal preco, string imageURL, int cinemaId, int produtorId)
         {
             Titulo = titulo;
             Descricao = descricao;
@@ -26,20 +26,27 @@ namespace IngressoMVC.Models
 
         public int Id { get; set; }
         public DateTime DataCadastro { get; set; }
-        public DateTime DataAlteração { get; set; }
-       
+        public DateTime DataAlteracao { get; set; }
         public string Titulo { get; private set; }
         public string Descricao { get; private set; }
         public decimal Preco { get; private set; }
         public string ImageURL { get; private set; }
-        
-        public Cinema Cinema { get; set; }
-        public List<FilmeCategoria> FilmesCategorias { get; set; }
 
-        //relacionamentos
-        public void AlterarPreco(decimal novoPreco)
+        #region relacionamentos
+        public int CinemaId { get; set; }
+        public Cinema Cinema { get; set; }
+
+        public int ProdutorId { get; set; }
+        public Produtor Produtor { get; set; }
+
+        public List<AtorFilme> AtoresFilmes { get; set; }
+        public List<FilmeCategoria> FilmesCategorias { get; set; }
+        #endregion
+
+
+        public void AlteraPreco(decimal novoPreco)
         {
-            if (novoPreco < 0)
+            if(novoPreco < 0)
             {
                 return;
             }

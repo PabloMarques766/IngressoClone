@@ -1,27 +1,46 @@
 ﻿using IngressoMVC.Data;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace IngressoMVC.Controllers
 {
     public class AtoresController : Controller
     {
-        private IngressoDbContex _context;
-        public IActionResult Index()
-        {
-            return Ok(_context.Atores);
-        }
+        private IngressoDbContext _context;
 
-        public AtoresController(IngressoDbContex context)
+        public AtoresController(IngressoDbContext context)
         {
             _context = context;
         }
 
+        public IActionResult Index()
+        {
+            return View(_context.Atores);
+        }
 
+        public IActionResult Detalhes(int id)
+        {
+            return View(_context.Atores.Find(id));
+        }
 
-       
+        public IActionResult Criar()
+        {
+            return View();
+        }
+
+        public IActionResult Atuaizar(int id)
+        {
+            //buscar um ator no banco 
+            //passar o ator na view
+                return View();
+        }
+
+        public IActionResult Deletar(int id)
+        {
+            //buscar um ator no banco 
+            //passar o ator na view
+                return View();
+        }
+
     }
 }
